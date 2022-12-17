@@ -1,4 +1,9 @@
-
-.text-muted {
-    color: #777;
+.loginForm {
+  width: 300px;
+  margin: auto;
 }
+
+.loginForm input {
+    margin-bottom: 20px;
+  }
+  

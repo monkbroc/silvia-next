@@ -1,4 +1,3 @@
-
 import styles from '../styles/AppContainer.module.css';
 
 type Props = {
@@ -7,7 +6,7 @@ type Props = {
 
 export default function AppContainer({ children }: Props) {
     return (
-        <div className="container">
+        <div className={`container ${styles.container}`}>
             <div className="wrap">
                 {children}
             </div>
