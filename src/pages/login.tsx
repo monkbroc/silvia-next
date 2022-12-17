@@ -1,4 +1,4 @@
-import styles from '../styles/Login.module.css';
+import styles from '../../styles/Login.module.css';
 import AppContainer from '../components/AppContainer';
 
 export default function Login() {
