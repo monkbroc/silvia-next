@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import styles from '../../styles/Login.module.css';
 import AppContainer from '../components/AppContainer';
 import { performLogin } from '../slices/login';
@@ -9,13 +10,17 @@ export default function Login() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { status, errorMessage } = useAppSelector((state) => state.login);
+    const router = useRouter();
 
     const loading = status === 'loading';
     const hasError = status === 'failed';
 
-    function handleClick(e) {
-        e.preventDefault(true);
-        dispatch(performLogin({ username, password }));
+    async function handleClick(e: Event) {
+        e.preventDefault();
+        const result = await dispatch(performLogin({ username, password }));
+        if (result.type === performLogin.fulfilled.type) {
+            router.replace('/status');
+        }
     }
 
     const busyIcon = <i className="bi-hourglass"></i>;
