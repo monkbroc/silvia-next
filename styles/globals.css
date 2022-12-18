@@ -102,6 +102,9 @@ body {
 
 /* end background decoration shapes */
 
+.progress {
+  --bs-progress-bar-bg: #f89406;
+}
 
 /* TODO: Move to app.css or something */
 h1, h2, h3, h4, h5 {

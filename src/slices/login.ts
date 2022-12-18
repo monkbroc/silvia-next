@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import particle from '../particle';
+import { RootState } from '../store';
 
 interface LoginState {
     status: 'idle' | 'loading' | 'succeeded' | 'failed';
@@ -42,5 +43,9 @@ const loginSlice = createSlice({
             });
     }
 });
+
+export const selectLoggedIn = (state: RootState) => {
+    return !!state.login.accessToken;
+}
 
 export default loginSlice.reducer;

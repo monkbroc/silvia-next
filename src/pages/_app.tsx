@@ -9,7 +9,7 @@ export default function App({ Component, ...rest }: AppProps) {
   const {store, props} = wrapper.useWrappedStore(rest);
   return (
     <Provider store={store}>
-      <Component {...rest.pageProps} />
+      <Component {...props.pageProps} />
     </Provider>
   );
 }
