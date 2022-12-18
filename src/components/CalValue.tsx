@@ -1,83 +1,47 @@
-import { useRef, UIEvent, KeyboardEvent  } from "react";
-import shallowEqual from "shallowequal";
+import { useRef, KeyboardEvent } from "react";
+import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 
 type Props = {
-    onChange: Function | null;
-} & React.HTMLProps<HTMLSpanElement>;
+    value: string,
+    onChange?: Function;
+    disabled?: boolean;
+};
 
-export default function CalValue(props: Props) {
-    const elem = useRef(null);
-    const { onChange } = props;
+export default function CalValue({ value, onChange }: Props) {
+    const text = useRef('');
 
-    const keyDown = (event: KeyboardEvent<HTMLElement>) => {
-        const ENTER = 13;
+    const handleChange = (event: ContentEditableEvent) => {
+        text.current = event.target.value;
+    };
 
-        if (event.keyCode === ENTER) {
+    const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
+        if (event.code === 'Enter') {
             event.preventDefault();
-            emitChange(event);
+            emitChange();
         }
     };
-    
 
-  const emitChange = (event: UIEvent) => {
-    if (!elem || !elem.current) {
-        return;
-    }
-    var value = elem.current.innerHTML;
+    const handleBlur = () => {
+        if (text.current !== value) {
+            emitChange();
+        }
+    };
 
-    if(onChange && value !== this.props.value.toString()) {
-      event.target = { value: value };
-      this.props.onChange(event);
-    }
-  }
+
+    const emitChange = () => {
+        if (onChange) {
+            onChange(text.current);
+        }
+    };
 
     return (
-        <span
-          className="editable"
-          {...props}
-          ref={elem}
-          onKeyDown={keyDown}
-          onBlur={emitChange}
-          contentEditable={!this.props.disabled}
-          dangerouslySetInnerHTML={{__html: this.props.value}}></span>
-      );
-}
-
-class CalValue extends Component {
-  constructor(props) {
-    super(props);
-    this.emitChange = this.emitChange.bind(this);
-    this.keyDown = this.keyDown.bind(this);
-  }
-
-  render() {
-    return (
-      <span
-        className="editable"
-        {...this.props}
-        onKeyDown={this.keyDown}
-        onBlur={this.emitChange}
-        contentEditable={!this.props.disabled}
-        dangerouslySetInnerHTML={{__html: this.props.value}}></span>
+        <ContentEditable
+            html={value}
+            onChange={handleChange}
+            onKeyDown={handleKeyDown}
+            onBlur={handleBlur}
+            tagName='span'
+            className='editable'
+        />
     );
-  }
-
-  shouldComponentUpdate(nextProps) {
-    return !shallowEqual(this.props, nextProps);
-  }
-
-  componentDidUpdate() {
-    if(this.props.value !== React.findDOMNode(this).innerHTML) {
-      React.findDOMNode(this).innerHTML = this.props.value;
-    }
-  }
-
-  emitChange(event) {
-    var value = React.findDOMNode(this).innerHTML;
-
-    if(this.props.onChange && value !== this.props.value.toString()) {
-      event.target = { value: value };
-      this.props.onChange(event);
-    }
-  }
 }

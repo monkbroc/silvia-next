@@ -22,6 +22,7 @@
     "next-redux-wrapper": "^8.0.0",
     "particle-api-js": "^9.4.1",
     "react": "18.2.0",
+    "react-contenteditable": "^3.3.6",
     "react-dom": "18.2.0",
     "react-redux": "^8.0.5",
     "shallowequal": "^1.1.0",

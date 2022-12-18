@@ -1,11 +1,15 @@
+import { useState } from "react";
+import CalValue from "./CalValue";
+
 export default function SleepTimer() {
     const loading = false; // TODO
-    const wakeupTime = 0; // TODO
+    const [wakeupTime, setWakeupTime] = useState(0);
     const handleSleep = () => {
         // TODO
     };
-    const handleTime = () => {
+    const handleTime = (value: string) => {
         // TODO
+        setWakeupTime(parseFloat(value));
     };
     const handleWake = () => {
 
@@ -19,8 +23,8 @@ export default function SleepTimer() {
                 <h2><button className="btn btn-warning btn-lg" disabled={loading}
                     onClick={handleSleep}>Sleep</button>
                     {" until "}
-                    <td><CalValue value={wakeupTime} disabled={loading}
-                        onChange={handleTime} /></td>
+                    <CalValue value={wakeupTime.toString()} disabled={loading}
+                        onChange={handleTime} />
                 </h2>
 
                 <h2><button className="btn btn-success btn-lg" disabled={loading}
