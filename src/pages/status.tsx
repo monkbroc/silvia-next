@@ -1,18 +1,17 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { EventStream } from 'particle-api-js';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import AppContainer from '../components/AppContainer';
 import CalibrateTable from '../components/CalibrateTable';
 import Navbar from '../components/Navbar';
 import SleepTimer from '../components/SleepTimer';
 import TemperatureGauge from '../components/TemperatureGauge';
-import { useAppDispatch } from '../hooks/app';
-import { useEnsureLoggedIn } from '../hooks/login';
+import { useAppDispatch, useAppSelector } from '../hooks/app';
 import { subscribeToDeviceData } from '../slices/device';
 
 function activeTab() {
-    const { query, replace } = useRouter();
+    const { query } = useRouter();
     switch (query.tab) {
         case 'status': return 'status';
         case 'calibrate': return 'calibrate';
@@ -22,7 +21,8 @@ function activeTab() {
 }
 
 export default function Status() {
-    // useEnsureLoggedIn();
+    const [connected, setConnected] = useState(false);
+    const router = useRouter();
     const dispatch = useAppDispatch();
 
     useEffect(() => {
@@ -30,12 +30,14 @@ export default function Status() {
         let abort = false;
         dispatch(subscribeToDeviceData())
             .then((_stream) => {
+                setConnected(true);
                 stream = _stream;
                 if (abort) {
                     stream.abort();
                 }
             }, () => {
                 console.error('subscribe failed');
+                router.push('/login');
             });
         return () => {
             if (stream) {
@@ -46,13 +48,18 @@ export default function Status() {
         }
     }, []);
 
+    const { power, temperature, sleeping } = useAppSelector((state) => state.device.variables.values);
+
     const tab = activeTab();
+
+    if (!connected) {
+        return <></>;
+    }
 
     return (
         <AppContainer>
             <Navbar/>
-            <Link href="/blank">Blank page</Link>
-            <TemperatureGauge power={10} temperature={90} sleeping={true}/>
+            <TemperatureGauge power={power} temperature={temperature} sleeping={sleeping}/>
             {tab === 'sleep' && <SleepTimer/>}
             {tab === 'calibrate' && <CalibrateTable/>}
         </AppContainer>

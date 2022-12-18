@@ -1,14 +1,13 @@
+import { useAppSelector } from '../hooks/app';
 import { roundPrec } from '../round';
 import CalValue from './CalValue';
 
 export default function CalibrateTable() {
+    const { power, temperature, error, iPart } = useAppSelector((state) => state.device.variables.values);
+
     const loading = false;
-    const error = 20;
-    const iPart = 2.5;
     const iPartOld = 2.4;
     const targetTemperature = 110;
-    const temperature = 90;
-    const power = 15;
     const offset = 6.5;
     const proportional = 5;
     const integral = 0.001;

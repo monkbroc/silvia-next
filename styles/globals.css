@@ -108,6 +108,10 @@ h1, h2, h3, h4, h5 {
   margin: 1em 0;
 }
 
+.container {
+  max-width: 970px;
+}
+
 /* Customization of bootstrap styles */
 
 .progress {

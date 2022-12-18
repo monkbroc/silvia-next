@@ -2,13 +2,14 @@ import styles from '../../styles/TemperatureGauge.module.css';
 import { roundPrec } from '../round';
 
 type Props = {
-    sleeping: boolean;
-    temperature: number;
-    power: number;
+    sleeping?: boolean;
+    temperature?: number;
+    power?: number;
 };
 
 export default function TemperatureGauge({ sleeping, temperature, power }: Props) {
-    const powerRound = Math.round(power || 0);
+    power = power || 0;
+    const powerRound = Math.round(power);
     const powerLog = power > 1.0 ? 50 * Math.log10(power) : 0;
 
     const renderTemperature = () => {
