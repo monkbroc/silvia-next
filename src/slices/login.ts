@@ -34,7 +34,7 @@ const loginSlice = createSlice({
                 state.status = 'loading';
             })
             .addCase(performLogin.fulfilled, (state, action) => {
-                state.status = 'idle';
+                state.status = 'succeeded';
                 state.accessToken = action.payload;
             })
             .addCase(performLogin.rejected, (state, action) => {

@@ -12,8 +12,6 @@ export default function Login() {
     const { status, errorMessage } = useAppSelector((state) => state.login);
     const router = useRouter();
 
-    console.log({ status, errorMessage });
-
     const loading = status === 'loading';
     const hasError = status === 'failed';
 

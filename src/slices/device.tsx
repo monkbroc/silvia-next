@@ -1,7 +1,7 @@
 import { createAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppCalibrations, AppVariables, calibrationsToApp, variablesToApp } from '../FirmwareDataMapper';
 import particle from '../particle';
-import { AppDispatch, AppGetState } from '../store';
+import { AppDispatch, AppGetState, RootState } from '../store';
 import { selectAccessToken } from './login';
 
 const deviceName = "silvia";
@@ -29,11 +29,8 @@ const initialState: DeviceState = {
     }
 };
 
-type CalParams = {
-    accessToken: string;
-}
-
-export const fetchCalibrations = createAsyncThunk<AppCalibrations, CalParams>('device/fetchCalibrations', async ({ accessToken }) => {
+export const fetchCalibrations = createAsyncThunk<AppCalibrations, void, { state: RootState }>('device/fetchCalibrations', async (_, { getState }) => {
+    const accessToken = selectAccessToken(getState());
     const { body } = await particle.getVariable({ deviceId: deviceName, name: deviceCals, auth: accessToken });
     const rawData = JSON.parse(body.result);
     return calibrationsToApp(rawData);
@@ -71,7 +68,7 @@ const deviceSlice = createSlice({
                 state.calibration.status = 'loading';
             })
             .addCase(fetchCalibrations.fulfilled, (state, action) => {
-                state.calibration.status = 'idle';
+                state.calibration.status = 'succeeded';
                 state.calibration.values = {
                     ...state.calibration.values,
                     ...action.payload

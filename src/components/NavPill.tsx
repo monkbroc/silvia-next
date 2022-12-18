@@ -14,7 +14,7 @@ export default function NavPill({ name, tab, defaultTab }: Props) {
 
     return (
         <li className="nav-item">
-          <Link className={`nav-link ${isActive ? 'active' : ''}`} href={`?tab=${tab}`}>{name}</Link>
+          <Link className={`nav-link ${isActive ? 'active' : ''}`} href={{ query: { tab }}}>{name}</Link>
         </li>
     );  
 }

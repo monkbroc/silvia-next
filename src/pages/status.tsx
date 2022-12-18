@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar';
 import SleepTimer from '../components/SleepTimer';
 import TemperatureGauge from '../components/TemperatureGauge';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
-import { subscribeToDeviceData } from '../slices/device';
+import { fetchCalibrations, subscribeToDeviceData } from '../slices/device';
 
 function useActiveTab() {
     const { query } = useRouter();
@@ -47,6 +47,10 @@ export default function Status() {
             }
         }
     }, [dispatch, router]);
+
+    useEffect(() => {
+        dispatch(fetchCalibrations());
+    }, [dispatch]);
 
     const { power, temperature, sleeping } = useAppSelector((state) => state.device.variables.values);
 

@@ -4,13 +4,11 @@ import CalValue from './CalValue';
 
 export default function CalibrateTable() {
     const { power, temperature, error, iPart } = useAppSelector((state) => state.device.variables.values);
+    const { targetTemperature, offset, proportional, integral } = useAppSelector((state) => state.device.calibration.values);
+    const loaded = useAppSelector((state) => state.device.calibration.status) === 'succeeded';
 
     const loading = false;
-    const iPartOld = 2.4;
-    const targetTemperature = 110;
-    const offset = 6.5;
-    const proportional = 5;
-    const integral = 0.001;
+    const iPartOld = loaded ? iPart - integral * error : "–";
 
     const handleChange = (field: string, value: string) => {
         // TODO
