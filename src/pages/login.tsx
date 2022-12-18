@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState, MouseEvent } from 'react';
 import { useRouter } from 'next/router';
 import styles from '../../styles/Login.module.css';
 import AppContainer from '../components/AppContainer';
@@ -17,11 +17,11 @@ export default function Login() {
     const loading = status === 'loading';
     const hasError = status === 'failed';
 
-    async function handleClick(e: Event) {
+    async function handleClick(e: MouseEvent<HTMLButtonElement>) {
         e.preventDefault();
         const result = await dispatch(performLogin({ username, password }));
         if (result.type === performLogin.fulfilled.type) {
-            router.replace('/status');
+            router.push('/status');
         }
     }
 

@@ -10,7 +10,7 @@ import TemperatureGauge from '../components/TemperatureGauge';
 import { useAppDispatch, useAppSelector } from '../hooks/app';
 import { subscribeToDeviceData } from '../slices/device';
 
-function activeTab() {
+function useActiveTab() {
     const { query } = useRouter();
     switch (query.tab) {
         case 'status': return 'status';
@@ -46,11 +46,11 @@ export default function Status() {
                 abort = true;
             }
         }
-    }, []);
+    }, [dispatch, router]);
 
     const { power, temperature, sleeping } = useAppSelector((state) => state.device.variables.values);
 
-    const tab = activeTab();
+    const tab = useActiveTab();
 
     if (!connected) {
         return <></>;
