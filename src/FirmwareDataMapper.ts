@@ -7,12 +7,12 @@ export interface DeviceVariables {
     p: number;
 }
 export interface AppVariables {
-    temperature: number;
-    power: number;
-    error: number;
-    sleeping: boolean;
-    iPart: number,
-    pPart: number;
+    temperature?: number;
+    power?: number;
+    error?: number;
+    sleeping?: boolean;
+    iPart?: number,
+    pPart?: number;
 }
 
 export interface DeviceCalibrations {

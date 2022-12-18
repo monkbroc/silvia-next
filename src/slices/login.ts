@@ -44,6 +44,10 @@ const loginSlice = createSlice({
     }
 });
 
+export const selectAccessToken = (state: RootState) => {
+    return state.login.accessToken;
+}
+
 export const selectLoggedIn = (state: RootState) => {
     return !!state.login.accessToken;
 }

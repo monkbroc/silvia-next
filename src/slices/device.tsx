@@ -1,6 +1,8 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { AppCalibrations, calibrationsToApp } from '../FirmwareDataMapper';
+import { createAction, createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { AppCalibrations, AppVariables, calibrationsToApp, variablesToApp } from '../FirmwareDataMapper';
 import particle from '../particle';
+import { AppDispatch, AppGetState } from '../store';
+import { selectAccessToken } from './login';
 
 const deviceName = "silvia";
 const deviceEvent = "coffee";
@@ -11,12 +13,18 @@ interface DeviceState {
     calibration: {
         status: 'idle' | 'loading' | 'succeeded' | 'failed';
         values: AppCalibrations;
+    },
+    variables: {
+        values: AppVariables
     }
 }
 
 const initialState: DeviceState = {
     calibration: {
         status: 'idle',
+        values: {}
+    },
+    variables: {
         values: {}
     }
 };
@@ -30,6 +38,26 @@ export const fetchCalibrations = createAsyncThunk<AppCalibrations, CalParams>('d
     const rawData = JSON.parse(body.result);
     return calibrationsToApp(rawData);
 });
+
+const receiveDeviceData = createAction<AppVariables>('device/receiveData');
+
+export const subscribeToDeviceData = () => {
+    return async (dispatch: AppDispatch, getState: AppGetState) => {
+        const accessToken = selectAccessToken(getState());
+
+        return particle.getEventStream({ name: deviceEvent, deviceId: deviceName, auth: accessToken })
+            .then((stream) => {
+                stream.on('event', (event) => {
+                    let rawData = JSON.parse(event.data);
+                    let data = variablesToApp(rawData);
+
+                    dispatch(receiveDeviceData(data));
+                });
+
+                return stream;
+            });
+        };
+};
 
 
 const deviceSlice = createSlice({
@@ -49,8 +77,14 @@ const deviceSlice = createSlice({
                     ...action.payload
                 };
             })
-            .addCase(fetchCalibrations.rejected, (state, action) => {
+            .addCase(fetchCalibrations.rejected, (state) => {
                 state.calibration.status = 'failed';
+            });
+        builder
+            .addCase(receiveDeviceData, (state, action) => {
+                state.variables.values = action.payload;
             });
     }
 });
+
+export default deviceSlice.reducer;

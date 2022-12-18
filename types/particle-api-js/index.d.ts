@@ -3,6 +3,7 @@ declare module 'particle-api-js' {
         constructor();
         login({ username: string, password: string }): Promise<LoginResponse>;
         getVariable({ deviceId: string, name: string, auth: string }): Promise<VariableResponse>;
+        getEventStream({ deviceId: string, name: string, auth: string }): Promise<EventStream>;
     }
 
     type LoginResponse = {
@@ -15,6 +16,11 @@ declare module 'particle-api-js' {
         body: {
             result: string;
         }
+    }
+
+    export interface EventStream {
+        on(eventName: string, callback: ({ name: string, data: string }) => void);
+        abort();
     }
 
     export = Particle;

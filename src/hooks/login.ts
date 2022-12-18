@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useAppSelector } from '../hooks';
+import { useAppSelector } from './app';
 import { selectLoggedIn } from '../slices/login';
 
 export const useEnsureLoggedIn = () => {

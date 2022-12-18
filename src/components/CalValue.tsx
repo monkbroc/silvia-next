@@ -3,7 +3,7 @@ import ContentEditable, { ContentEditableEvent } from 'react-contenteditable'
 
 type Props = {
     value: string,
-    onChange?: Function;
+    onChange?: (value: string) => void;
     disabled?: boolean;
 };
 
