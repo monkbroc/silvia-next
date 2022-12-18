@@ -19,8 +19,8 @@ type LoginParams = {
     password: string;
 }
 export const performLogin = createAsyncThunk<string, LoginParams>('particle/login', async ({ username, password }) => {
-    const response = await particle.login({ username, password });
-    return response.body.access_token;
+    const { body } = await particle.login({ username, password });
+    return body.access_token;
 });
 
 const loginSlice = createSlice({
