@@ -4,7 +4,7 @@ declare module 'particle-api-js' {
         login({ username: string, password: string }): Promise<LoginResponse>
     }
 
-    type LoginResponse {
+    type LoginResponse = {
         body: {
             access_token: string
         }

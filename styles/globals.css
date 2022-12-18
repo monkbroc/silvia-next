@@ -102,13 +102,20 @@ body {
 
 /* end background decoration shapes */
 
-.progress {
-  --bs-progress-bar-bg: #f89406;
-}
-
-/* TODO: Move to app.css or something */
 h1, h2, h3, h4, h5 {
   font-family: "Open Sans";
   font-weight: 300;
   margin: 1em 0;
+}
+
+/* Customization of bootstrap styles */
+
+.progress {
+  --bs-progress-bar-bg: #f89406;
+}
+.nav-pills {
+  --bs-nav-pills-link-active-bg: #f89406;
+}
+.nav {
+  --bs-nav-link-color: var(--bs-body-color);
 }
