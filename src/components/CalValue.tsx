@@ -8,7 +8,7 @@ type Props = {
 };
 
 export default function CalValue({ value, onChange }: Props) {
-    const text = useRef('');
+    const text = useRef(value);
 
     const handleChange = (event: ContentEditableEvent) => {
         text.current = event.target.value;

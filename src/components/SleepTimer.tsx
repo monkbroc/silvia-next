@@ -9,7 +9,7 @@ export default function SleepTimer() {
     };
     const handleTime = (value: string) => {
         // TODO
-        setWakeupTime(parseFloat(value));
+        setWakeupTime(parseFloat(value || '0'));
     };
     const handleWake = () => {
 
