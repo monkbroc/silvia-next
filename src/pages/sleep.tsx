@@ -1,12 +1,18 @@
 import Link from 'next/link';
 import AppContainer from '../components/AppContainer';
 import Navbar from '../components/Navbar';
+import SleepTimer from '../components/SleepTimer';
+import TemperatureGauge from '../components/TemperatureGauge';
+import { useEnsureLoggedIn } from '../hooks/login';
 
 export default function Status() {
+    // useEnsureLoggedIn();
+    
     return (
         <AppContainer>
             <Navbar/>
-            <h1>Sleep Page</h1>
+            <TemperatureGauge power={10} temperature={90} sleeping={true}/>
+            <SleepTimer/>
         </AppContainer>
     );
 }

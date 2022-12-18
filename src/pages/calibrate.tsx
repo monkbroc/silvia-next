@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { useEnsureLoggedIn } from '../hooks/login';
 
 export default function Status() {
-    useEnsureLoggedIn();
+    // useEnsureLoggedIn();
 
     return (
         <>

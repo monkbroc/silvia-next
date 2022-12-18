@@ -119,3 +119,19 @@ h1, h2, h3, h4, h5 {
 .nav {
   --bs-nav-link-color: var(--bs-body-color);
 }
+
+/* Calibration */
+.calibration-table {
+  font-family: "Open Sans";
+  font-weight: 300;
+  font-size: 30px;
+  width: auto;
+  max-width: auto; }
+  .calibration-table th, .calibration-table td {
+    padding: 6px;
+    font-weight: 300; }
+
+.calibratable .editable {
+  padding: 6px 20px;
+  background-color: #df8505;
+  color: white; }
